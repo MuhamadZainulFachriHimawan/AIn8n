@@ -1,0 +1,116 @@
+{
+  "name": "Chatbot Tanam",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "Hi there! 👋\nMy name is opet. How can I assist you today?",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.5,
+      "position": [
+        0,
+        0
+      ],
+      "id": "7daa1244-9671-45e6-a135-269d7573f029",
+      "name": "When chat message received",
+      "webhookId": "d5e678eb-c56b-45c7-a494-0bdbc9c3ff17"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Anda adalah \"Dokter Tanaman\", seorang Asisten AI Perawatan & Konsultasi Tanaman yang ahli di bidang hortikultura dan pertanian rumah tangga.\nTugas Anda adalah membantu pengguna menjawab pertanyaan seputar perawatan tanaman hias, sayuran, penyiraman, pemupukan, media tanam, serta penanganan hama/penyakit tanaman.\n1. Jawablah dengan bahasa Indonesia yang ramah, sopan, komunikatif, dan mudah dipahami oleh pemula.\n2. Jika pengguna memperkenalkan nama mereka, ingat nama mereka saat menjawab.\n3. Jika pertanyaan di luar topik tanaman atau bercocok tanam, jawab dengan jujur: \"Maaf, saya hanya difokuskan untuk membantu konsultasi perawatan tanaman dan panduan berkebun.\""
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        144,
+        0
+      ],
+      "id": "a361407f-2151-421f-a2d2-67e31d267df8",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        208
+      ],
+      "id": "5c657787-9110-4691-b7d5-0441fd3327fa",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "jDzfDvgCMtfbp1W5",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        160,
+        208
+      ],
+      "id": "119a3986-5e2c-4101-b8af-01a6c8133194",
+      "name": "Simple Memory"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "c4ecad05-6bfe-44a7-bdbd-8fc5142116be",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "dc96f10ae7dc95d3c138575ba243a0a167923dbcb524841d451aadf9135d5fb3"
+  },
+  "nodeGroups": [],
+  "id": "QLCmGaeAWzDCGnnm",
+  "tags": []
+}
